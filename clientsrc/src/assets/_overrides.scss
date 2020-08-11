@@ -1,0 +1,19 @@
+.btn-primary {
+  color: $light;
+  background-color: $primary;
+  border-color: darken($color: $primary, $amount: 10);
+  border-width: medium;
+}
+
+.row.overflow-page{
+    width: 100vw;
+    flex-wrap: nowrap !important;
+  overflow-y: scroll !important;
+}
+
+.page-height{
+  height: 100vh !important;
+  }
+  .list-height{
+    min-height: 100% !important;
+    }
