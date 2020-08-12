@@ -18,6 +18,7 @@ export class NotesController extends BaseController {
   }
   async delete(req, res, next) {
     try {
+      req.body.creatorEmail = req.userInfo.email
       await notesService.delete(req.params.id, req.userInfo.email)
       return res.send("balorted!")
     } catch (error) {
@@ -26,6 +27,7 @@ export class NotesController extends BaseController {
   }
   async edit(req, res, next) {
     try {
+      req.body.creatorEmail = req.userInfo.email
       let data = await notesService.edit(req.params.id, req.userInfo.email, req.body)
       return res.send(data)
     } catch (error) {

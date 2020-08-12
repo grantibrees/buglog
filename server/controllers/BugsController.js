@@ -31,6 +31,7 @@ export class BugsController extends BaseController {
   }
   async delete(req, res, next) {
     try {
+      // req.body.creatorEmail = req.userInfo.email
       await bugsService.delete(req.params.id, req.userInfo.email)
       res.send("success deletion")
     } catch (error) {
@@ -39,6 +40,7 @@ export class BugsController extends BaseController {
   }
   async edit(req, res, next) {
     try {
+      req.body.creatorEmail = req.userInfo.email
       let data = await bugsService.edit(req.params.id, req.userInfo.email, req.body)
       return res.send(data)
     } catch (error) {
