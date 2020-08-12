@@ -1,5 +1,5 @@
 <template>
-  <div class="noteModal">
+  <div class="quickModalNote">
     <div class="modal" id="note-modal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content bg-primary text-light">
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "noteModal",
+  name: "quickModalNote",
   data() {
     return {
       startNote: {},

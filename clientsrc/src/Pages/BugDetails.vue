@@ -15,7 +15,7 @@
         <div class="my-1 col-4">Created By:{{bug.creatorEmail}}</div>
       </div>
     </div>
-    <div class="col-8 card text-center pt-3 shadow-lg px-0">
+    <div class="col-8 bg-white text-center pt-3 px-0">
       <p>{{bug.description}}</p>
       <button
         type="button"
@@ -29,26 +29,26 @@
         data-toggle="modal"
         data-target="#edit-modal"
       >Edit</button>
-      <editModal :editBugData="bug" />
+      <QuickModalEdit :editBugData="bug" />
     </div>
-    <div class="card shadow-lg my-2 col-6">
+    <div class="bg-white my-2 col-6">
       <button
         v-if="bug.closed==true"
         disabled
         type="button"
         data-toggle="modal"
         data-target="#note-modal"
-        class="btn btn-outline-primary mt-3 m-2 shadow-lg"
+        class="btn btn-outline-primary mt-3 m-2"
       >Add A Note</button>
       <button
         v-else
         type="button"
         data-toggle="modal"
         data-target="#note-modal"
-        class="btn btn-outline-primary mt-3 m-2 shadow-lg"
+        class="btn btn-outline-primary mt-3 m-2"
       >Add A Note</button>
-      <noteModal />
-      <div class="p-2 overflow" v-for="note in notes" :key="note.id">
+      <quickModalNote />
+      <div class="p-2" v-for="note in notes" :key="note.id">
         <hr />
         <button
           type="button"
@@ -63,8 +63,8 @@
 
 
 <script>
-import NoteModal from "../components/NoteModal";
-import EditModal from "../components/EditModal";
+import QuickModalNote from "../components/QuickModalNote";
+import QuickModalEdit from "../components/QuickModalEdit";
 export default {
   name: "bugDetails",
   data() {
@@ -126,15 +126,8 @@ export default {
     },
   },
   components: {
-    NoteModal,
-    EditModal,
+    QuickModalNote,
+    QuickModalEdit,
   },
 };
 </script>
-
-
-<style scoped>
-.overflow {
-  overflow: auto;
-}
-</style>
