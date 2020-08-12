@@ -1,15 +1,6 @@
 <template>
   <div class="home">
     <div class="row justify-content-center container-fluid">
-      <div class="col-6">
-        <button
-          type="button"
-          data-toggle="modal"
-          data-target="#bug-modal"
-          class="btn btn-primary btn-block m-2"
-        >Report New Bug</button>
-        <bugModal />
-      </div>
       <div class="col-12 text-center">
         <h2 class="text-primary">Ongoing Bugs</h2>
         <div class="bg-white d-flex flex-row justify-content-around p-2">
@@ -21,6 +12,15 @@
         <div class="bg-white">
           <bug v-for="bug in bugs" :bugData="bug" :key="bug.id" />
         </div>
+      </div>
+      <div class="col-6">
+        <button
+          type="button"
+          data-toggle="modal"
+          data-target="#bug-modal"
+          class="btn btn-primary btn-block m-2"
+        >Report New Bug</button>
+        <bugModal />
       </div>
     </div>
   </div>
