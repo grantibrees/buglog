@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     profile: {},
-    bugs: {},
+    bugs: [],
     activeBug: {},
     notes: {}
   },
@@ -21,12 +21,12 @@ export default new Vuex.Store({
     setBugs(state, bugs) {
       state.bugs = bugs
     },
-    setActiveBug(state, activeBugData) {
-      state.activeBug = activeBugData
+    setActiveBug(state, activeBug) {
+      state.activeBug = activeBug
     },
-    setNotes(state, data) {
-      Vue.set(state.notes, data.bugId, data.notes)
-    },
+    setActiveNote(state, notes) {
+      state.notes = notes
+    }
   },
   actions: {
     setBearer({ }, bearer) {
@@ -43,51 +43,85 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    getBugs({ commit, dispatch }) {
-      api.get('bugs')
-        .then(res => {
-          console.log(res);
-          commit('setBugs', res.data)
-        })
-    },
-    getActiveBug({ commit, dispatch }, bugId) {
-      api.get('bugs/' + bugId)
-        .then(res => {
-          console.log(res.data);
-          commit('setActiveBug', res.data)
-        }).catch(err => {
-          console.error(err);
-        })
-    },
-    addBug({ commit, dispatch }, bugData) {
-      api.post('bugs', bugData)
-        .then(serverBug => {
-          dispatch('getBugs')
-        })
-    },
-    getNotes({ commit, dispatch }, bugId) {
-      api.get('bugs/' + bugId + '/notes')
-        .then(res => {
-          console.log(res);
-          let data = {
-            bugId: bugId,
-            notes: res.data
-          }
-          commit('setNotes', data)
-        })
-    },
-    async addNote({ commit, dispatch }, payload) {
+    // @ts-ignore
+    async getBugs({ commit, dispatch }) {
       try {
-        let res = await api.post('notes/' + payload.bugId, payload)
+        let res = await api.get("bugs")
+        commit("setBugs", res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    // @ts-ignore
+    async getBug({ commit, dispatch }, bug) {
+      try {
+        let res = await api.get("bugs/" + bug)
+        commit("setActiveBug", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    // @ts-ignore
+    async addBug({ commit, dispatch }, bugData) {
+      try {
+        let res = await api.post("bugs", bugData)
+        dispatch("getBugs")
+        router.push({ name: "bugDetails", params: { id: res.data.id } })
         console.log(res.data);
-        dispatch('getNotes', payload.bugId)
-      } catch (error) { console.error(error) }
+      } catch (error) {
+        console.error(error);
+      }
     },
-    async deleteNote({ commit, dispatch }, payload) {
+    async deleteBug({ commit, dispatch }, bugId) {
       try {
-        let res = await api.delete('bugs/' + payload.bugId + "/notes/" + payload.noteId)
-        dispatch("getNotes", payload.bugId)
-      } catch (error) { console.error(error) }
+        // @ts-ignore
+        let res = await api.delete("bugs/" + bugId)
+        commit("setActiveBug", bugId)
+        dispatch("getBugs", bugId)
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async editBug({ commit, dispatch }, editBugData) {
+      try {
+        // @ts-ignore
+        let res = await api.put("bugs/" + editBugData.id, editBugData.description)
+        commit("setActiveBug", {})
+        dispatch("getBug", editBugData.id)
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async addNote({ commit, dispatch }, noteData) {
+      try {
+
+        let res = await api.post("notes", noteData)
+        dispatch("getNote", noteData.bug)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getNote({ commit }, id) {
+      try {
+
+        let res = await api.get("bugs/" + id + "/notes/")
+        commit("setActiveNote", res.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async deleteNote({ dispatch }, data) {
+      try {
+
+        let res = await api.delete("notes/" + data.id)
+        dispatch("getNote", data.bug
+        )
+      } catch (error) {
+        console.error(error);
+      }
     },
   }
 });

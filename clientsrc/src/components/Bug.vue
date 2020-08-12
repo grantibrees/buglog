@@ -1,45 +1,43 @@
 <template>
-  <div class="bug row">
-    <div class="col-3 hover-link">
-      <router-link :to="{name: 'Bugs/:bugId', params: {bugId: bugData.id}}">{{bugData.title}}</router-link>
+  <div class="bug">
+    <div class="row">
+      <div class="col-3 hover-link">
+        <router-link :to="{name:'bugDetails', params: {id:bugData.id}}">
+          <span>{{bugData.title}}</span>
+        </router-link>
+      </div>
+
+      <div class="col-3">
+        <span>{{bugData.creatorEmail}}</span>
+      </div>
+      <div class="col-3">
+        <div v-show="bugData.closed == true" class="text-danger">Closed</div>
+        <div v-show="bugData.closed == false" class="text-success">Open</div>
+      </div>
+      <div class="col-3">
+        <span>{{lastModDate}}</span>
+      </div>
     </div>
-    <div class="col-3">{{bugData.creatorEmail}}</div>
-    <div class="col-3">
-      <div v-show="bugData.closed == true" class="text-danger">Closed</div>
-      <div v-show="bugData.closed == false" class="text-success">Open</div>
-    </div>
-    <div class="col-3">{{lastModDate}}</div>
   </div>
 </template>
 
 
 <script>
-// import notes from "../components/Notes";
 export default {
-  name: "Bug",
+  name: "bug",
   props: ["bugData"],
   data() {
     return {
       lastModDate: new Date(this.bugData.updatedAt).toLocaleString(),
     };
   },
-  props: ["bugData"],
-
-  mounted() {},
   computed: {
-    bugs() {
-      return this.$store.state.bugs;
+    profile() {
+      return this.$store.state.profile;
     },
   },
-
-  methods: {
-    goToBugDetails() {
-      this.$router.push({ name: "Bug", params: { id: this.bugData._id } });
-    },
-  },
-  components: {
-    // notes,
-  },
+  methods: {},
+  components: {},
 };
 </script>
 

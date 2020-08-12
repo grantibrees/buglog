@@ -14,22 +14,7 @@
           v-if="$auth.isAuthenticated"
           :class="{ active: $route.name == 'Profile' }"
         >
-          <router-link class="nav-link" :to="{ name: 'Profile' }">My Bugs</router-link>
-        </li>
-        <li
-          class="nav-item"
-          v-if="$auth.isAuthenticated"
-          :class="{ active: $route.name == 'Bugs' }"
-        >
-          <router-link class="nav-link" :to="{ name: 'Bugs' }">All Bugs</router-link>
-        </li>
-        <li class="nav-item" v-if="$route.name == 'Bugs'">
-          <button
-            class="nav-link btn btn-outline-danger"
-            type="button"
-            data-toggle="modal"
-            data-target="#bugModal"
-          >Report Bug</button>
+          <router-link class="nav-link" :to="{ name: 'Profile' }">My Profile</router-link>
         </li>
       </ul>
       <span class="navbar-text">
